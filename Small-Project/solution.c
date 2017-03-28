@@ -10,17 +10,20 @@ int main(int argc, char **argv) {
     bool debugMode = false;
     if (argc >= 2) {
         char *paramString =
-            (char*) malloc((strlen(argv[0]) + 1) * sizeof(char));
-        strcpy(paramString, argv[0]);
-        if (strcmp(paramString, "-v") && argc == 2 ) {
+            (char*) malloc((strlen(argv[1]) + 1) * sizeof(char));
+        strcpy(paramString, argv[1]);
+        if ((strncmp(paramString, "-v", 3) == 0) && argc == 2 ) {
             debugMode = true;
         }
         else {
-            printf("ERROR %d %s", argc, argv[1]);
+            printf("ERROR");
             return 1;
         }
     }
-    if(debugMode == true)printf("true");
-    else printf("false");
+    
     return 0;
 }
+
+
+//strncmp(paramString, "-v", strlen("-v") + 1)
+//paramString[0] == '-' && paramString[1] == 'v' 
