@@ -1,0 +1,1 @@
+/* pamietaj zeby przygotowac pierwszy wierzcholek recznie */
