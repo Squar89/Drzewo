@@ -1,11 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 
-typedef struct Tree {
-    struct List *leftGuardian;
-    struct List *rightGuardian;
-    struct List *nodeInParentsList;
-} Tree;
+extern int numberOfNodes;
 
 extern char* addNode(int parentsLabel);
 
@@ -16,5 +12,9 @@ extern char* deleteNode(int label);
 extern char* deleteSubtree(int label);
 
 extern char* splitNode(int labelParent, int labelNodeNextTo);
+
+extern void setupZeroNode();
+
+extern void clean();
 
 #endif /* TREE_H */

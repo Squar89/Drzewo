@@ -1,8 +1,15 @@
 #include<stdlib.h>
+#include<stdio.h>
 #include"list.h"
 #include"tree.h"
 
 #define MAX_ARRAY_SIZE 250000
+
+typedef struct Tree {
+    struct List *leftGuardian;
+    struct List *rightGuardian;
+    struct List *nodeInParentsList;
+} Tree;
 
 Tree *PointerToNode[MAX_ARRAY_SIZE];
 int numberOfNodes = 0;
@@ -46,7 +53,7 @@ char* addNode(int parentsLabel) {
     setConnection(nodeInParentsList, parentsGuardian);
     createNode(nodeInParentsList);
     
-    return "OK\n";
+    return "OK";
 }
 
 int rightmostChild(int label) {
@@ -85,8 +92,9 @@ char* deleteNode(int label) {
     deleteListElement(node->nodeInParentsList);
     updateArray(label, NULL);
     free(node);
+    numberOfNodes--;
     
-    return "OK\n";
+    return "OK";
 }
 
 char* deleteSubtree(int label) {
@@ -100,8 +108,8 @@ char* deleteSubtree(int label) {
     while (getNext(previousOnParentsList) != nextOnParentsList) {
         deleteNode(getLabel(getNext(previousOnParentsList)));
     }
-    
-    return "OK\n";
+
+    return "OK";
 }
 
 char* splitNode(int labelParent, int labelNodeNextTo) {
@@ -118,8 +126,12 @@ char* splitNode(int labelParent, int labelNodeNextTo) {
         setConnection(nodeNextTo->nodeInParentsList,
                       newNode->nodeInParentsList);
     }
-    
-    return "OK\n";
+
+    return "OK";
+}
+
+void setupZeroNode() {
+    createNode(createListElement(0));
 }
 
 void clean() {
@@ -136,7 +148,7 @@ void clean() {
     
     return;
 }
-
+/*
 int main() {
     /*
     createNode(createListElement(0));
@@ -178,9 +190,9 @@ int main() {
     deleteNode(2);
     deleteNode(4);
     */
-    
+/*
     clean();
     
     
     return 0;
-}
+}*/
