@@ -1,4 +1,3 @@
-/* TODO remove unnecessary headers */
 #include<stdlib.h>
 #include<stdio.h>
 #include"list.h"

@@ -1,16 +1,9 @@
-/* TODO remove unnecessary headers */
 #include<stdlib.h>
-#include<stdio.h>
 #include"list.h"
 #include"tree.h"
 
 #define MAX_ARRAY_SIZE 250000
 
-typedef struct Tree {
-    struct List *leftGuardian;
-    struct List *rightGuardian;
-    struct List *nodeInParentsList;
-} Tree;
 Tree *PointerToNode[MAX_ARRAY_SIZE];
 int numberOfNodes = 0;
 int nextNodeLabel = 0;
@@ -24,14 +17,14 @@ void updateArray(int label, Tree *node) {
     return;
 }
 
-void createNode(List *nodeInList) {
+void createNode(List *nodeInParentsList) {
     Tree *node;
     node = (Tree*) malloc(sizeof(Tree));
     
     node->leftGuardian = createListElement(-1);
     node->rightGuardian = createListElement(-1);
     setConnection(node->leftGuardian, node->rightGuardian);
-    node->nodeInParentsList = nodeInList;
+    node->nodeInParentsList = nodeInParentsList;
     updateArray(nextNodeLabel, node);
     
     numberOfNodes++;
@@ -40,18 +33,18 @@ void createNode(List *nodeInList) {
     return;
 }
 
-char* addNode(int parentslabel) {
-    List *nodeInList = createListElement(nextNodeLabel);
-    Tree *parentsNode = getPointerToNode(parentslabel);
+char* addNode(int parentsLabel) {
+    List *nodeInParentsList = createListElement(nextNodeLabel);
+    Tree *parentsNode = getPointerToNode(parentsLabel);
     List *lastParentsChild = getPrevious(parentsNode->rightGuardian);
     List *parentsGuardian = parentsNode->rightGuardian;
     /* lastParentsChild might also be his left guardian,
      * but that doesn't really matter in this case
      */
     
-    setConnection(lastParentsChild, nodeInList);
-    setConnection(nodeInList, parentsGuardian);
-    createNode(nodeInList);
+    setConnection(lastParentsChild, nodeInParentsList);
+    setConnection(nodeInParentsList, parentsGuardian);
+    createNode(nodeInParentsList);
     
     return "OK\n";
 }
@@ -73,7 +66,6 @@ bool hasNoChildren(int label) {
 }
 
 char* deleteNode(int label) {
-    /* TODO */
     Tree *node = getPointerToNode(label);
     List *previousOnParentsList = getPrevious(node->nodeInParentsList);
     List *nextOnParentsList = getNext(node->nodeInParentsList);
@@ -98,7 +90,35 @@ char* deleteNode(int label) {
 }
 
 char* deleteSubtree(int label) {
-    /* TODO */
+    Tree *node = getPointerToNode(label);
+    List *previousOnParentsList = getPrevious(node->nodeInParentsList);
+    List *nextOnParentsList = getNext(node->nodeInParentsList);
+    
+    /* delete nodes from parent's list until the input node predecessor's
+     * successor is input node original successor
+     */
+    while (getNext(previousOnParentsList) != nextOnParentsList) {
+        deleteNode(getLabel(getNext(previousOnParentsList)));
+    }
+    
+    return "OK\n";
+}
+
+char* splitNode(int labelParent, int labelNodeNextTo) {
+    addNode(labelParent);
+    
+    Tree *newNode = getPointerToNode(nextNodeLabel - 1);
+    Tree *nodeNextTo = getPointerToNode(labelNodeNextTo);
+    List *leftChildToMove = getNext(nodeNextTo->nodeInParentsList);
+    List *rightChildToMove = getPrevious(newNode->nodeInParentsList);
+    
+    if (leftChildToMove != newNode->nodeInParentsList) {
+        setConnection(newNode->leftGuardian, leftChildToMove);
+        setConnection(rightChildToMove, newNode->rightGuardian);
+        setConnection(nodeNextTo->nodeInParentsList,
+                      newNode->nodeInParentsList);
+    }
+    
     return "OK\n";
 }
 
@@ -117,16 +137,9 @@ void clean() {
     return;
 }
 
-char* splitNode(int label) {
-    /* TODO */
-    return "OK\n";
-}
-
-
 int main() {
-    
-    createNode(createListElement(0));
     /*
+    createNode(createListElement(0));
     printf("%d\n", rightmostChild(0));
     addNode(0);
     printf("%d\n", rightmostChild(0));
@@ -137,6 +150,12 @@ int main() {
     addNode(3);
     printf("%d\n", rightmostChild(3));
     addNode(1);
+    addNode(1);
+    addNode(1);
+    addNode(1);//8
+    splitNode(1, 5);
+    printf("%d\n", rightmostChild(1));
+    printf("%d\n", rightmostChild(9));
     */
     /*
     printf("%d\n", rightmostChild(1));
