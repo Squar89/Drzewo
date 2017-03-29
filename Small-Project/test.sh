@@ -12,7 +12,7 @@ fi
 
 for test in $directory/*.in; do
     if [ $debugMode == 0 ]; then
-        time ./$prog < $test > test.out
+        ./$prog < $test > test.out
         if [ "$(diff ${test::-3}.out test.out)" != "" ]; then
             echo ${test::-3}.out
         fi
