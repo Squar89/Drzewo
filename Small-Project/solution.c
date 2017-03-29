@@ -1,4 +1,3 @@
-/* TODO check if debug mode works */
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -69,7 +68,7 @@ int main(int argc, char **argv) {
             printf("%s\n", splitNode(firstArgument, secondArgument));
         }
         if(debugMode == true) {
-            fprintf(stderr, "NODES: <%d>\n", numberOfNodes);
+            fprintf(stderr, "NODES: %d\n", numberOfNodes);
         }
     }
     
@@ -77,23 +76,3 @@ int main(int argc, char **argv) {
     
     return 0;
 }
-
-/*
-ADD_NODE 0
-ADD_NODE 0
-ADD_NODE 1
-ADD_NODE 1
-ADD_NODE 0
-ADD_NODE 3
-RIGHTMOST_CHILD 0
-RIGHTMOST_CHILD 1
-ADD_NODE 4
-DELETE_NODE 4
-RIGHTMOST_CHILD 1
-ADD_NODE 1
-SPLIT_NODE 1 3
-RIGHTMOST_CHILD 1
-RIGHTMOST_CHILD 9
-DELETE_SUBTREE 9
-RIGHTMOST_CHILD 1
-*/

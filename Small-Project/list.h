@@ -16,8 +16,6 @@ extern List* getPrevious(List *list);
 
 extern List* getNext(List *list);
 
-extern bool isEmpty(List *list);
-
 extern List* createListElement(int label);
 
 extern void setConnection(List *firstList, List *secondList);

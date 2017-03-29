@@ -1,7 +1,5 @@
 #include<stdlib.h>
-#include<stdio.h>
 #include"list.h"
-#include"tree.h"
 
 #define MAX_ARRAY_SIZE 250000
 
@@ -148,51 +146,3 @@ void clean() {
     
     return;
 }
-/*
-int main() {
-    /*
-    createNode(createListElement(0));
-    printf("%d\n", rightmostChild(0));
-    addNode(0);
-    printf("%d\n", rightmostChild(0));
-    addNode(0);
-    printf("%d\n", rightmostChild(0));
-    addNode(1);
-    printf("%d\n", rightmostChild(1));
-    addNode(3);
-    printf("%d\n", rightmostChild(3));
-    addNode(1);
-    addNode(1);
-    addNode(1);
-    addNode(1);//8
-    splitNode(1, 5);
-    printf("%d\n", rightmostChild(1));
-    printf("%d\n", rightmostChild(9));
-    */
-    /*
-    printf("%d\n", rightmostChild(1));
-    deleteNode(2);
-    deleteNode(1);
-    printf("%d\n", rightmostChild(0));
-    deleteNode(5);
-    printf("%d\n", rightmostChild(0));
-    */
-    /*
-    deleteNode(5);
-    printf("%d\n", rightmostChild(1));
-    addNode(1);
-    printf("%d\n", rightmostChild(1));
-    deleteNode(3);
-    printf("%d\n", rightmostChild(1));
-    deleteNode(6);
-    printf("%d\n", rightmostChild(1));
-    deleteNode(1);
-    deleteNode(2);
-    deleteNode(4);
-    */
-/*
-    clean();
-    
-    
-    return 0;
-}*/
