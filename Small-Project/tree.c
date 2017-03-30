@@ -15,20 +15,20 @@ typedef struct Tree {
 } Tree;
 
 /* Array that stores pointers to nodes(Tree) with their labels as key */
-Tree *PointerToNode[MAX_ARRAY_SIZE];
+Tree *pointerToNode[MAX_ARRAY_SIZE];
 int numberOfNodes = 0;
 int nextNodeLabel = 0;
 
 Tree* getPointerToNode(int label) {
     /* NULL pointer possible only when we are trying to interact with
      * a node that has already been deleted */
-    assert(PointerToNode[label] != NULL && "interacting with deleted node");
+    assert(pointerToNode[label] != NULL && "interacting with deleted node");
     
-    return PointerToNode[label];
+    return pointerToNode[label];
 }
 
 void updateArray(int label, Tree *node) {
-    PointerToNode[label] = node;
+    pointerToNode[label] = node;
     
     return;
 }
