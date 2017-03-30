@@ -1,6 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+/* this struct represents list element with pointers
+ * to previous and next element */
 typedef struct List {
     struct List *previous;
     struct List *next;

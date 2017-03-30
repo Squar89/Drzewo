@@ -1,24 +1,35 @@
 #include<stdlib.h>
+#include<assert.h>
 #include"list.h"
 
 #define MAX_ARRAY_SIZE 250000
 
+
+/* right and left guardian is self-explanatory and nodeInParentsList
+ * is a pointer to this node's unique list element which is an element
+ * of his parent's list (basically this node represented as list element) */
 typedef struct Tree {
     struct List *leftGuardian;
     struct List *rightGuardian;
     struct List *nodeInParentsList;
 } Tree;
 
+/* Array that stores pointers to nodes(Tree) with their labels as key */
 Tree *PointerToNode[MAX_ARRAY_SIZE];
 int numberOfNodes = 0;
 int nextNodeLabel = 0;
 
 Tree* getPointerToNode(int label) {
+    /* NULL pointer possible only when we are trying to interact with
+     * a node that has already been deleted */
+    assert(PointerToNode[label] != NULL && "interacting with deleted node");
+    
     return PointerToNode[label];
 }
 
 void updateArray(int label, Tree *node) {
     PointerToNode[label] = node;
+    
     return;
 }
 
@@ -30,6 +41,7 @@ void createNode(List *nodeInParentsList) {
     node->rightGuardian = createListElement(-1);
     setConnection(node->leftGuardian, node->rightGuardian);
     node->nodeInParentsList = nodeInParentsList;
+    
     updateArray(nextNodeLabel, node);
     
     numberOfNodes++;
@@ -44,8 +56,7 @@ char* addNode(int parentsLabel) {
     List *lastParentsChild = getPrevious(parentsNode->rightGuardian);
     List *parentsGuardian = parentsNode->rightGuardian;
     /* lastParentsChild might also be his left guardian,
-     * but that doesn't really matter in this case
-     */
+     * but that doesn't really matter in this case */
     
     setConnection(lastParentsChild, nodeInParentsList);
     setConnection(nodeInParentsList, parentsGuardian);
@@ -58,10 +69,14 @@ int rightmostChild(int label) {
     Tree *node = getPointerToNode(label);
     List *rightChild = getPrevious(node->rightGuardian);
     
+    /* returns label of list element that is a predecessor
+     * to node's right guardian, so either his rightmost child
+     * or his left guardian with label "-1" */
     return rightChild->label;
 }
 
 bool hasNoChildren(int label) {
+    /* rightmostChild returns -1 only if node has no Children */
     if (rightmostChild(label) == -1) {
         return true;
     }
@@ -100,8 +115,10 @@ char* deleteSubtree(int label) {
     List *previousOnParentsList = getPrevious(node->nodeInParentsList);
     List *nextOnParentsList = getNext(node->nodeInParentsList);
     
-    /* delete nodes from parent's list until the input node predecessor's
-     * successor is input node original successor
+    /* deleteNode replaces input Node in his parent's list with his
+     * children so this while deletes nodes from parent's list until
+     * the input node predecessor's successor is input node original
+     * successor, or simply until whole subtree is deleted from parent's list
      */
     while (getNext(previousOnParentsList) != nextOnParentsList) {
         deleteNode(getLabel(getNext(previousOnParentsList)));
@@ -113,6 +130,8 @@ char* deleteSubtree(int label) {
 char* splitNode(int labelParent, int labelNodeNextTo) {
     addNode(labelParent);
     
+    /* newNode is the node that we just created and
+     * nodeNextTo is the node that we are asked to split tree right after */
     Tree *newNode = getPointerToNode(nextNodeLabel - 1);
     Tree *nodeNextTo = getPointerToNode(labelNodeNextTo);
     List *leftChildToMove = getNext(nodeNextTo->nodeInParentsList);
@@ -128,12 +147,16 @@ char* splitNode(int labelParent, int labelNodeNextTo) {
     return "OK";
 }
 
+/* this function prepares node 0 which is a little bit different
+ * as it doesn't have parent */
 void setupZeroNode() {
     createNode(createListElement(0));
 }
 
 void clean() {
     Tree *zeroNode = getPointerToNode(0);
+    /* these are created so we can use deleteSubtree function on zero node
+     * and therefore simplify cleaning process */
     List *highestLeftGuardian = createListElement(-1);
     List *highestRightGuardian = createListElement(-1);
     

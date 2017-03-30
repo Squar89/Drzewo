@@ -4,6 +4,8 @@
 #include"tree.h"
 
 #define MAX_STRING_SIZE 20
+// sizes of accepted input strings used later as an argument in strncmp
+#define ARG_LENGTH 3 // "-v" //2 + 1
 #define ADD_NODE_LENGTH 9 //8 + 1
 #define RIGHTMOST_CHILD_LENGTH 16 // 15 + 1
 #define DELETE_NODE_LENGTH 12 // 11 + 1
@@ -21,16 +23,19 @@ int main(int argc, char **argv) {
         char *paramString =
             (char*) malloc((strlen(argv[1]) + 1) * sizeof(char));
         strcpy(paramString, argv[1]);
-        if ((strncmp(paramString, "-v", 3) == 0) && argc == 2 ) {
+        if ((strncmp(paramString, "-v", ARG_LENGTH) == 0) && argc == 2 ) {
             debugMode = true;
         }
         else {
             printf("ERROR");
+            free(paramString);
             return 1;
         }
         free(paramString);
     }
     
+    /* preparing zero node in our Tree 
+     * for more see tree.c */
     setupZeroNode();
     
     while((scanf("%s", inputString)) != EOF) {
@@ -72,6 +77,8 @@ int main(int argc, char **argv) {
         }
     }
     
+    /* destroys Tree structure cleaning used memory
+     * for more see tree.c */
     clean();
     
     return 0;
