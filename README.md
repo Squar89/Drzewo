@@ -1,2 +1,2 @@
-# IPP
-Small projects and bits of code for classes "Indywidualny projekt programistyczny"
+# Drzewo
+Small project for class Indywidualny Projekt Programistyczny
